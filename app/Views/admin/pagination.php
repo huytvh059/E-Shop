@@ -1,0 +1,1 @@
+<?php if(($pages??0)>1):?><nav class="d-flex gap-2 flex-wrap" aria-label="Phân trang"><?php for($i=1;$i<=$pages;$i++):?><a class="btn <?= $page===$i?'btn-primary':'btn-light' ?> btn-sm" href="?<?= e(http_build_query(array_merge($_GET,['page'=>$i]))) ?>"><?= $i ?></a><?php endfor?></nav><?php endif?>

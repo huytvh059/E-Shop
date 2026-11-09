@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_DATABASE: eshop_test
+      MARIADB_USER: eshop_test
+      MARIADB_PASSWORD: ${TEST_DB_PASS:?Set TEST_DB_PASS}
+      MARIADB_ROOT_PASSWORD: ${TEST_ROOT_PASS:?Set TEST_ROOT_PASS}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    tmpfs:
+      - /var/lib/mysql
+  php:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.test
+    environment:
+      APP_URL: http://localhost:8080
+      APP_DEBUG: "true"
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: eshop_test
+      DB_USER: eshop_test
+      DB_PASS: ${TEST_DB_PASS:?Set TEST_DB_PASS}
+    volumes:
+      - .:/app
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: php -S 0.0.0.0:8080 -t public public/router.php

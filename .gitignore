@@ -1,0 +1,32 @@
+# Secret: chỉ commit cấu hình mẫu.
+.env
+.env.*
+!.env.example
+
+# Runtime / dependencies cục bộ.
+/.tools/
+/vendor/
+/node_modules/
+/start-local.ps1
+
+# Dữ liệu phát sinh: backup và chuyển riêng khi triển khai.
+/storage/logs/*
+!/storage/logs/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep
+*.log
+*.pid
+*.sql.gz
+*.sql.zip
+/backups/
+
+# IDE / OS / tệp tạm.
+/.idea/
+/.vscode/
+/.agents/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
